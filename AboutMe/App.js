@@ -20,21 +20,21 @@ let img = "./img/perfil.jpg";
 );
 }
 
-  const styles = StyleSheet.create({
-    container: {
-    backgroundColor: '#000',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-    },
-    foto:{
-      height: 300,
-      width: '90%',
-      resizeMode: 'contain'
-    },
-    imgSmall:{
-      width: '90%',
-      height: 300,
-      resizeMode: 'cover'
-    }
-  });
+const styles = StyleSheet.create({
+  container: {
+  backgroundColor: '#000',
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center'
+  },
+  foto:{
+    height: 300,
+    width: '90%',
+    resizeMode: 'contain'
+  },
+  imgSmall:{
+    width: '90%',
+    height: 300,
+    resizeMode: 'cover'
+  }
+});
