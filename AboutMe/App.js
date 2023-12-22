@@ -21,26 +21,34 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-  backgroundColor: '#000',
+  backgroundColor: '#fff',
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center'
   },
-  foto:{
-    position:'relative',
-    top: 100,
-    height: 300,
-    width: '90%',
-    resizeMode: 'contain'
-  },
   imgSmall:{
     width: '90%',
     height: 300,
-    resizeMode: 'cover'
-  },
+    resizeMode: 'cover',
+    borderRadius: 300,
+    borderStyle: 'solid',
+    borderWidth: '2px', 
+    borderColor: 'black',
+    shadowColor: 'black',
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 3.6,
+    shadowRadius: 4,
+    elevation: 2,
+    },
+
   header:{
     color: '#fff',
     backgroundColor: '#f22',
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 4,
+    elevation: 2, // Necessário para sombras aparecerem no Android
     padding: 15,
     position: 'fixed',
     top: 0,
