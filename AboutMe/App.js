@@ -1,10 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, StyleSheet, SafeAreaView, Text, Image } from 'react-native';
+import { useFonts } from 'react-native-google-fonts/GoogleFonts';
+
 export default function App() {
 
   //let img = './img/perfil.jpg';
+  const [fontsLoaded] = useFonts({
+    Roboto: require('path-to-your-fonts/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('path-to-your-fonts/Roboto-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return null; // Ou algum componente de carregamento enquanto as fontes estão sendo carregadas
+  }
+
  
 return (
+   
+
    <SafeAreaView style={styles.container}>
    
       <View style={styles.header}>
@@ -21,7 +34,7 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-  backgroundColor: '#fff',
+    background: 'linear-gradient(to bottom right, #10378a, #0b2978)',
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center'
@@ -42,8 +55,9 @@ const styles = StyleSheet.create({
     },
 
   header:{
+    fontFamily: 'Roboto',
     color: '#fff',
-    backgroundColor: '#f22',
+    backgroundColor: '#000c55',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.6,
