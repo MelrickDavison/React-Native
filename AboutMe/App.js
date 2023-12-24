@@ -13,14 +13,30 @@ return (
       </View>
       <Image
         source={require('./img/perfil.jpg')}
-        style={styles.imgSmall}
+        style={styles.imgPerfil}
       />
       <Text style={styles.titulo}>
         Melrick Davison
       </Text>
       <Text style={styles.text}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      </Text>
+        Olá, meu nome é Melrick Davison Fonseca Ribeiro, nasci e moro em Maceió, Alagoas. Atualmente, estudo no Instituto Federal de Alagoas (IFAL) campus Rio Largo, onde atuo como bolsista de um projeto que instrui a população apartir de cursos maker's chamado Espaço 4.0 
+         </Text>
+         <Image
+        source={require('./img/espaco40.jpg')}
+        style={styles.imgGaleria}
+      />
+            <Text style={styles.text2}>
+          Gosto de fazer uma infinidade de coisas, como sair com meus amigos, conhecer lugares novos e ler vários livros. Além de, é claro, programar. 
+                 </Text>
+                 <Image
+        source={require('./img/amigos.jpg')}
+        style={styles.imgGaleria2}
+      />
+        <Image
+        source={require('./img/foto1.jpg')}
+        style={styles.imgGaleria3}
+      />
+                 
       </ScrollView>
      
    </SafeAreaView>
@@ -34,7 +50,7 @@ const styles = StyleSheet.create({
   alignItems: 'center',
   justifyContent: 'center'
   },
-  imgSmall:{
+  imgPerfil:{
     width: '90%',
     height: 300,
     resizeMode: 'cover',
@@ -51,6 +67,57 @@ const styles = StyleSheet.create({
     top: 150,
     marginLeft: 22.6,
     },
+
+      imgGaleria:{
+    width: '90%',
+    height: 400,
+    resizeMode: 'cover',
+    borderStyle: 'solid',
+    borderWidth: '2px', 
+    borderColor: 'black',
+    shadowColor: 'black',
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 3.6,
+    shadowRadius: 4,
+    elevation: 2,
+    position: 'fixed',
+    top: 900,
+    marginLeft: 22.6,
+    },
+
+    imgGaleria2:{
+      width: '90%',
+      height: 400,
+      resizeMode: 'cover',
+      borderStyle: 'solid',
+      borderWidth: '2px', 
+      borderColor: 'black',
+      shadowColor: 'black',
+      shadowOffset: { width: 3, height: 4 },
+      shadowOpacity: 3.6,
+      shadowRadius: 4,
+      elevation: 2,
+      position: 'fixed',
+      top: 1560,
+      marginLeft: 22.6,
+      },
+
+      imgGaleria3:{
+        width: '90%',
+        height: 400,
+        resizeMode: 'cover',
+        borderStyle: 'solid',
+        borderWidth: '2px', 
+        borderColor: 'black',
+        shadowColor: 'black',
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 3.6,
+        shadowRadius: 4,
+        elevation: 2,
+        position: 'fixed',
+        top: 2000,
+        marginLeft: 22.6,
+        },
 
   header:{
     color: '#fff',
@@ -92,6 +159,16 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: '24px',
     color: '#fff',
-  }
+    top: 24
+  },
+  
+  text2:{
+    margin: 12,
+    paddingHorizontal: 15,
+    textAlign: 'justify',
+    fontSize: '24px',
+    color: '#fff',
+    top:490
+  },
 });
 
