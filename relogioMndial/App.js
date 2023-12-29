@@ -1,56 +1,52 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, StatusBar, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native';
+import moment from 'moment-timezone';
 
-let timer = null;
-let segundos = 0;
-let minutos = 0;
-let horas = 0;
+var relogio = null;
 
 export default function App() {
-  const[numero,setNumero] = useState(0);
-  const[botao,setBotao] = useState('Iniciar');
-  const[Ultimo,setUltimo] = useState(null);
 
-  function iniciar(){
-    if(timer !== null){
-      clearInterval(timer);
-      timer = null;
-      setBotao('Iniciar');
-    }else{
-      timer = setInterval(() => {
-        segundos++;
-        
-        if (segundos >= 60) {
-            segundos = 0;
-            minutos++;
-        }
+  const [localTime, setLocalTime] = useState('');
+  const[local, setLocal] = useState('Brazil/Maceio')
+  const[localName, setLocalName] = useState('Maceio')
+  
+  useEffect(() => {
+    relogio = setInterval(() => {
+      const formattedTime = moment().tz(local).format('HH:mm:ss');
+      setLocalTime(formattedTime);
+    }, 1000);
+  }, [])
 
-        if(minutos >= 60){
-          minutos = 0;
-          horas++;
-        }
-
-        let formatado = (horas < 10? '0' + horas : horas) + ':' 
-        + (minutos < 10? '0' + minutos : minutos ) + ':' 
-        + (segundos < 10? '0' + segundos : segundos);
-        setNumero(formatado);
-      },100);
-      setBotao('Parar');
-    }
+  function iniciarTime(zone){
+    clearInterval(relogio)
+    relogio = setInterval(() => {
+      const formattedTime = moment().tz(zone).format('HH:mm:ss');
+      setLocalTime(formattedTime);
+    }, 1000);
+    return relogio
   }
 
-  function zerar(){
-    clearInterval(timer);
-    timer = null;
-    setUltimo(numero);
-    setNumero(0);
-    segundos = 0;
-    minutos = 0;
-    horas = 0;
-    setBotao('Iniciar');
-    console.log(Ultimo);
-  }
+  
 
+function RelogioMaceio(){
+ // setLocal()
+  setLocalName('Maceio')
+  iniciarTime('America/Maceio')
+}
+
+function RelogioNewYork(){
+  //setLocal('America/New_York')
+  setLocalName('Nova York')
+  iniciarTime('America/New_York')
+
+ }
+
+ function RelogioLondres(){
+  setLocalName('Londres')  
+  iniciarTime('Europe/London')
+ }
+ 
+ 
 
   return (
    <SafeAreaView style={styles.container}>
@@ -68,39 +64,37 @@ export default function App() {
       />
 
       <Text style={styles.texto}>
-       00:00:00
+       {localTime}
        
       </Text>
 
       <Text style={styles.textLocation}>
-       Maceió
+        {localName}
        
       </Text>
 
       <View style={styles.areaBtn}>
-        <TouchableOpacity style={styles.btn} onPress={ iniciar }>
+        <TouchableOpacity style={styles.btn} onPress={ RelogioMaceio }>
           <Text style={styles.btnText}>
-              Maceió
+            Maceió
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn} onPress={ zerar }>
-          <Text style={styles.btnText}>
-              Nova York
-          </Text>
-
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress={ zerar }>
+        <TouchableOpacity style={styles.btn} onPress={ RelogioNewYork}>
           <Text style={styles.btnText}>
               Nova York
           </Text>
 
         </TouchableOpacity>
 
-      <Text style={styles.tempoMedido}>
-        {Ultimo !== null? 'Ultimo tempo medido: ' + Ultimo : null}
-      </Text>
+        <TouchableOpacity style={styles.btn} onPress={ RelogioLondres }>
+          <Text style={styles.btnText}>
+              Londres
+          </Text>
+
+        </TouchableOpacity>
+
+    
       </View>
    </SafeAreaView>
   );
@@ -157,11 +151,5 @@ const styles = StyleSheet.create({
   btnText:{
     fontSize: 20,
     fontWeight: 'bold'
-  },
-  tempoMedido:{
-    fontSize: 20,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginTop: 15
   }
 });

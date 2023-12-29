@@ -1,8 +1,58 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, StyleSheet, StatusBar, SafeAreaView, Image, Text, TouchableOpacity } from 'react-native';
 
+let timer = null;
+let segundos = 0;
+let minutos = 0;
+let horas = 0;
+
 export default function App() {
- return (
+  const[numero,setNumero] = useState(0);
+  const[botao,setBotao] = useState('Iniciar');
+  const[Ultimo,setUltimo] = useState(null);
+
+  function iniciar(){
+    if(timer !== null){
+      clearInterval(timer);
+      timer = null;
+      setBotao('Iniciar');
+    }else{
+      timer = setInterval(() => {
+        segundos++;
+        
+        if (segundos >= 60) {
+            segundos = 0;
+            minutos++;
+        }
+
+        if(minutos >= 60){
+          minutos = 0;
+          horas++;
+        }
+
+        let formatado = (horas < 10? '0' + horas : horas) + ':' 
+        + (minutos < 10? '0' + minutos : minutos ) + ':' 
+        + (segundos < 10? '0' + segundos : segundos);
+        setNumero(formatado);
+      },100);
+      setBotao('Parar');
+    }
+  }
+
+  function zerar(){
+    clearInterval(timer);
+    timer = null;
+    setUltimo(numero);
+    setNumero(0);
+    segundos = 0;
+    minutos = 0;
+    horas = 0;
+    setBotao('Iniciar');
+    console.log(Ultimo);
+  }
+
+
+  return (
    <SafeAreaView style={styles.container}>
       <StatusBar  style= "auto"/>
    
@@ -12,17 +62,17 @@ export default function App() {
       />
 
       <Text style={styles.texto}>
-        00:00:00
+        {numero == 0? '00:00:00' : numero}
       </Text>
 
       <View style={styles.areaBtn}>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={ iniciar }>
           <Text style={styles.btnText}>
-              Iniciar
+              {botao}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={ zerar }>
           <Text style={styles.btnText}>
               Zerar
           </Text>
@@ -32,7 +82,7 @@ export default function App() {
       </View>
 
       <Text style={styles.tempoMedido}>
-        Ultimo tempo medido: 02:50:45
+        {Ultimo !== null? 'Ultimo tempo medido: ' + Ultimo : null}
       </Text>
    
    </SafeAreaView>
