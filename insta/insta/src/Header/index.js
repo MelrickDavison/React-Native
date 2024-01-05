@@ -17,6 +17,7 @@ export default function Header(props) {
         style = {styles.logo1}
         />
     </TouchableOpacity>
+
    </View>
 
 
