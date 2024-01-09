@@ -50,9 +50,9 @@ export default function List(props) {
         />
          </TouchableOpacity>
         </View>
-        <Text>
+        {/* <Text>
             {mostrarLikes(props.data.likes)}
-<       </Text>
+<       </Text> */}
             <View style={styles.desc}> 
             <Text style={styles.nomePerfil}>
             {props.data.nome} 
