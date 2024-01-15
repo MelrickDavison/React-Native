@@ -3,11 +3,11 @@ import { View, SafeAreaView, Text, StyleSheet, StatusBar, TextInput, TouchableOp
 
 
 export default function App() {
-    
+  
   return (
    <SafeAreaView style={styles.container}>
     <StatusBar/>
-    <Text> BUSCADOR DE CEP</Text>
+    <Text style={styles.titulo}> BUSCADOR DE CEP</Text>
     
     <TextInput/>
 
@@ -40,4 +40,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  titulo:{
+  fontWeight: 'bold'
+  },
+
+  button
 });
