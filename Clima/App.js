@@ -7,9 +7,12 @@ export default function App() {
     <StatusBar/>
     <Text style={styles.titulo}> ClimAtual </Text>
     
-    <TextInput/>
-
+    <Text> Digite um local </Text>
+    <TextInput
+    placeholder='Ex: Maceió'
+    />
     <View>
+
       <TouchableOpacity>
         <Text> Buscar </Text>
       </TouchableOpacity>
@@ -19,14 +22,7 @@ export default function App() {
       </TouchableOpacity>
     </View>
 
-    <View>
-      <Text>CEP: 57045260</Text>
-      <Text>Logradouro: Avenida Muniz Falcão</Text>
-      <Text>Bairro: Barro Duro</Text>
-      <Text>Cidade: Maceió</Text>
-      <Text>Estado: Alagoas</Text>
-      
-    </View>
+
    </SafeAreaView>
   );
 }
