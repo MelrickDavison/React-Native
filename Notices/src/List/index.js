@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-import Detalhes from './src/DetalhesNoticia'
+import { useNavigation } from '@react-navigation/native'
 
 const navigation = useNavigation();
 
@@ -40,7 +36,7 @@ export default function List(props) {
 
  return (
 
-    <TouchableOpacity style={styles.geral} onPress={ () => navigation.navigate('Detalhes') }>
+    <TouchableOpacity style={styles.geral} >
    <View style={styles.container}>
     <View style={styles.viewImage}> 
 
