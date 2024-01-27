@@ -3,11 +3,7 @@ import { StyleSheet, Text, View , FlatList, StatusBar} from 'react-native';
 
 export default function Home() {
 
-    const [dateNow, setDate] = useState(`${new Date().getDate() < 10 ? "0"+ new Date().getDate() : new Date().getDate()}/${new Date().getMonth() == 0 ? "01" : "0"+new Date().getMonth()}/${new Date().getFullYear()}`)
-
-    export default function App() {
-      const [dateNow, setDate] = useState(`${new Date().getDate() < 10 ? "0"+ new Date().getDate() : new Date().getDate()}/${new Date().getMonth() == 0 ? "01" : "0"+new Date().getMonth()}/${new Date().getFullYear()}`)
-    
+    const [dateNow, setDate] = useState(`${new Date().getDate() < 10 ? "0"+ new Date().getDate() : new Date().getDate()}/${new Date().getMonth() == 0 ? "01" : "0"+new Date().getMonth()}/${new Date().getFullYear()}`)    
       console.log(dateNow)
     
       const[notices, setNoticia] = useState([

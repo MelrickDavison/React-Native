@@ -5,8 +5,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Detalhes from './src/DetalhesNoticia'
 import Home from './src/Home';
+import api from './src/Service'
 // import List from './src/List';
 
+export default function app() {
 const Stack = createNativeStackNavigator();
 
   return (

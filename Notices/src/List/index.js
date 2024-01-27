@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
-const navigation = useNavigation();
+
 
 export default function List(props) {
-    
+    const navigation = useNavigation();
+
    function gerarQuantDias(diaPublicacao){
         let diaAtual = new Date().getDate()
         
@@ -36,7 +37,7 @@ export default function List(props) {
 
  return (
 
-    <TouchableOpacity style={styles.geral} >
+    <TouchableOpacity style={styles.geral}   onPress={ () => navigation.navigate('Detalhes') }>
    <View style={styles.container}>
     <View style={styles.viewImage}> 
 
