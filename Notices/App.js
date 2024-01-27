@@ -1,5 +1,8 @@
 import  React, {useState}  from 'react';
 import { StyleSheet, Text, View , FlatList, StatusBar} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
 import Header from './src/Header';
 import List from './src/List';
 
@@ -45,7 +48,7 @@ export default function App() {
    keyExtractor={ (item) => item.id}
    renderItem={ ({item}) => <List data={item} />}
    />
-
+    
     </View>
   );
 }

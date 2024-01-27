@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+import Detalhes from './src/DetalhesNoticia'
+
+const navigation = useNavigation();
+
 export default function List(props) {
     
    function gerarQuantDias(diaPublicacao){
@@ -33,9 +40,10 @@ export default function List(props) {
 
  return (
 
-    <TouchableOpacity style={styles.geral}>
+    <TouchableOpacity style={styles.geral} onPress={ () => navigation.navigate('Detalhes') }>
    <View style={styles.container}>
     <View style={styles.viewImage}> 
+
     <Image
         source={{uri: props.data.foto}}
         style={styles.fotoCapa}
