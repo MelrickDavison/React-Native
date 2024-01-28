@@ -4,21 +4,36 @@ import { View, SafeAreaView,Image, Text, StyleSheet, TextInput, TouchableOpacity
 import axios from 'axios';
     
 export default function App() {
+  const [imagemTemp, setImagem] = useState('');
   const [location, setLocation] = useState('');
   const [weatherData, setWeatherData] = useState(null);
+
+  
 
   const getWeather = async () => {
   try {
     // API utilizada: https://openweathermap.org/
     const apiKey = 'b1a6c4e7d8151aff17c8882ad520c79c';
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric&lang=pt_br`;
 
     const response = await axios.get(apiUrl);
     setWeatherData(response.data);
+    
+    const temperature = response.data.main.temp;
+
+    if(parseInt(temperature) > 25){
+      setImagem(require('./src/image/quente.png'))
+    }else if(temperature > 10){
+      setImagem(require('./src/image/morno.png'))
+    } else{
+      setImagem(require('./src/image/frio.png'))
+    }
+
   } catch (error) {
     alert("Digite um local válido");
     console.error('Erro ao obter dados do clima:', error);
   }
+  
   }
   return (
     <SafeAreaView style={styles.container}>
@@ -46,9 +61,25 @@ export default function App() {
 
     {weatherData && (
         <View style={styles.respostasView}>
-          <Text style={styles.respostas}>Condição: {weatherData.weather[0].description}</Text>
-          <Text style={styles.respostas}>Temperatura: {(weatherData.main.temp).toFixed(1)} °C</Text>
+          <View style={styles.viewTemp}> 
+            <View style={styles.header}>
+              <Text style={styles.temp}>{(weatherData.main.temp).toFixed(1)}°</Text>
+              <Text style={styles.desc}>{weatherData.weather[0].description}</Text>
+            </View>
+            
+            
+          </View>
+        
+          <Image
+            source={imagemTemp}
+             style={styles.imgTemp}
+          />
+        <View style={styles.info}>
           <Text style={styles.respostas}>Umidade: {weatherData.main.humidity}%</Text>
+          <Text style={styles.respostas}>Sensação Térmica de {(weatherData.main.feels_like).toFixed(1)}°</Text>
+        </View>
+   
+
          
         </View>
       )}
@@ -66,15 +97,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   respostas: {
-    textAlign: 'center',
+    textAlign: 'right',
     color: 'white',
     fontSize: 20,
-    padding: 10,
+    padding: 5,
   },
   respostasView: {
     backgroundColor: '#0339fc',
     flexDirection: 'column',
-    borderRadius: "60",
+    overflow: 'hidden',
+    borderRadius: 30,
     borderStyle: 'solid',
     borderWidth: '2px', 
     borderColor: 'black',
@@ -115,5 +147,36 @@ const styles = StyleSheet.create({
     color: '#fff',
     borderWidth: 1, 
     marginBottom: 10 
+  },
+
+  temp: {
+    color: '#fff',
+    fontSize: 70,
+    padding: 15,
+  },
+  desc:{
+    textAlign: 'left',
+    color: 'white',
+    fontSize: 20,
+    marginLeft: 15,
+    top: -8
+  },
+  imgTemp: {
+    marginRight: 12,
+    marginLeft: 200,
+    marginTop: 30,
+    height: 90,
+    width: 90,
+  },
+
+  viewTemp:{
+    flexDirection: "row",
+     alignContent: 'space-between'
+  },
+
+  info:{
+   marginTop: 20,
+   marginRight: 12,
+   marginBottom: 20,
   }
 })
