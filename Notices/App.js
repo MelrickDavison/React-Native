@@ -21,7 +21,8 @@ const Stack = createNativeStackNavigator();
       options={{
         title: 'Clarim Diário',
         headerStyle:{
-          backgroundColor:'#121212'
+          backgroundColor:'#121212',
+          textAlign: 'center'
         },
         headerTintColor: '#fff'
       }}

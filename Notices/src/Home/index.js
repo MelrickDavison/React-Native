@@ -1,26 +1,65 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View , FlatList, Button, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, Button, StatusBar} from 'react-native';
 import axios from 'axios';
 
-import List from './index.js';
 
 export default function Home() {
 
+  const [imageData, setImageData] = useState([]);
   const [news, setNews] = useState([]);
+  const [noticiasModificadas, setNoticias] = useState(null)
 
       useEffect(() => {
-        const apiKey = '5837e993bd5f4094a22e4eab73c0523c';
-        const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+        
+        const apiUrl = `http://servicodados.ibge.gov.br/api/v3/noticias/`
+       
     
         axios.get(apiUrl)
           .then(response => {
-            setNews(response.data.articles);
+            setNews(response.data.items);
+            setNoticias(response.data.items.map((item) => {
+              const palavraInicio = '"image_intro":"';
+              const palavraFim = '.';
+              const indexInicio = item.imagens.indexOf(palavraInicio);
+              const indexFim = item.imagens.indexOf(palavraFim) + 4;
+              if(indexFim == -1){
+                console.log(item.imagens)
+                return null
+              }
+              const textUri = item.imagens.substring(indexInicio + palavraInicio.length, indexFim);
+        
+              const imageUri = textUri.replace(/\s/g, '')
+             
+              return {
+                ...item,
+                imagens: `https://agenciadenoticias.ibge.gov.br/${imageUri}`,
+              };
+            }));
+
+         
+            // for (let i = 0; i < 10; i++) {
+            //   const element = response.data.items[i];
+              
+            //   const palavraInicio = '"image_intro":';
+            //   const palavraFim = '.';
+            //   const indexInicio = element.imagens.indexOf(palavraInicio);
+            //   const indexFim = element.imagens.indexOf(palavraFim) + 4;
+            //   console.log(indexInicio);
+            //   console.log(indexFim);
+            //   const imageUri = element.imagens.substring(indexInicio + palavraInicio.length, indexFim + palavraFim.length);
+            //   console.log(element.imagens)
+            //   console.log(imageUri)
+              
+            // }
           })
           .catch(error => {
             console.error('Erro ao buscar notícias:', error);
           });
       }, []);
 
+      console.log(noticiasModificadas)
+      
+     
   
     
       // const[notices, setNoticia] = useState([
@@ -55,9 +94,20 @@ export default function Home() {
   <View>
       <Text>Últimas Notícias</Text>
       <FlatList
-        data={news}
+        data={noticiasModificadas}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <List data={item} />}
+        renderItem={({ item }) => (
+          <View style={styles.container}>
+            <View>
+            <Image source={{ uri: item.imagens }} style={styles.fotoCapa} />
+            </View>
+            <Text style={styles.titulo}>{item.titulo}</Text>
+            <Button
+              title="Ver Detalhes"
+              // onPress={() => navigation.navigate('Details', { newsItem: item })}
+            />
+          </View>
+        )}
       />
     </View>
 
@@ -81,23 +131,48 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-    header: {
-      width: '100%',
-      height: 40,
-      flexDirection: 'row',
-      backgroundColor: '#fff',
-      paddingHorizontal: 7,
-      alignItems: 'center',
-      justifyContent: 'space-between'
-    }, 
+  container: {
+    flex: 1,
+    borderWidth: 1,
+    width: '90%',
+    height: 40,
+    borderRadius: 20,
+    padding: 10,
+    backgroundColor: '#808080',
+    alignContent: 'center',
+    justifyContent: 'center',
+    margin: 12,
+    shadowColor: 'black',
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 3.6,
+    shadowRadius: 4,
+    elevation: 2,
+},
+info: {
+    color: '#fff'
+}, 
+viewImage:{
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center'
+},
 
-    container: {
-      flex: 1,
-      backgroundColor: '#008080',
-      alignItems: 'center',
-    },
-
-      subtitle: {
-        alignContent: 'space-between'
-      }
+fotoCapa:{
+    width: '100%',
+    height: 250,
+    borderRadius: 20,
+},
+title: {
+    fontSize: 20, 
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#fff'
+},
+detalhes: {
+},
+geral: {
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center'
+}
   });
