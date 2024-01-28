@@ -1,39 +1,11 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity} from 'react-native';
+
 
 
 
 export default function List(props) {
-    const navigation = useNavigation();
 
-   function gerarQuantDias(diaPublicacao){
-        let diaAtual = new Date().getDate()
-        
-       if (diaPublicacao.ano == new Date().getFullYear()) {
-        if(parseInt(diaPublicacao.mes) == new Date().getMonth()){
-            let dias = diaAtual - parseInt(diaPublicacao.dia)
-                if(dias == 0){
-                    return "Hoje"
-                } else{
-                    return dias == 1 ? dias + " dia" : dias + " dias"
-                }
-        }else{
-            return new Date().getMonth() - parseInt(diaPublicacao.mes)
-        }
-       } else{
-        if(new Date().getMonth() < parseInt(diaPublicacao.mes)){
-            let result = new Date().getFullYear() - parseInt(diaPublicacao.ano)
-         return result == 1 ? result + " ano" : result + " anos"
-        }else{
-          let result = new Date().getFullYear() - parseInt(diaPublicacao.ano)
-          result--
-         return result == 1 ? result + " ano" : result + " anos"  
-
-        }
-       }
-
-    }
 
  return (
 
@@ -42,19 +14,23 @@ export default function List(props) {
     <View style={styles.viewImage}> 
 
     <Image
-        source={{uri: props.data.foto}}
+        source={{uri: props.data.urlToImage}}
         style={styles.fotoCapa}
     />
     </View>
     <View style={styles.detalhes}>
 
     <Text style={styles.title}>
-        {props.data.titulo} 
-    </Text>
+            {iteprops.dam.title}
+            </Text>
     <Text style={styles.info}>
-        {props.data.autor} · {gerarQuantDias(props.data.dataPublicacao)}
+        {props.data.autor} · {gerarQuantDias(props.data.publishedAt)}
         </Text>
-
+        <Button
+              title="Ver Detalhes"
+              onPress={() => navigation.navigate('Detalhes', { newsItem: item })}
+            />
+         
     </View>
 
    </View>

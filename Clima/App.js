@@ -22,6 +22,9 @@ export default function App() {
       </TouchableOpacity>
     </View>
 
+    <View style={styles.respostas}>
+
+    </View>
 
    </SafeAreaView>
   );
@@ -34,4 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  respostas: {
+    textAlign: 'center',
+  }
 });
