@@ -21,7 +21,7 @@ export default function List(props) {
     <View style={styles.detalhes}>
 
     <Text style={styles.title}>
-            {iteprops.dam.title}
+            {props.data.title}
             </Text>
     <Text style={styles.info}>
         {props.data.autor} · {gerarQuantDias(props.data.publishedAt)}
