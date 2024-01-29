@@ -1,13 +1,31 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Image, FlatList, Button, StatusBar} from 'react-native';
+import { StyleSheet, Text, View, Modal, Image, FlatList, Button, TouchableOpacity, StatusBar} from 'react-native';
+import ModalSelector from 'react-native-modal';
 import axios from 'axios';
 
 
 export default function Home() {
 
-  const [imageData, setImageData] = useState([]);
-  const [news, setNews] = useState([]);
-  const [noticiasModificadas, setNoticias] = useState(null)
+
+  const [news, setNoticias] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const shareSelecionado = (option) => {
+    setModalVisible(false);
+    switch (option) {
+      case 'facebook':
+        alert("Compartilhado com o Facebook")
+        break;
+      case 'twitter':
+        alert("Compartilhado com o Twitter")
+        break;
+      case 'whatsapp':
+        alert("Compartilhado com o WhatsApp")
+        break;
+      default:
+        break;
+    }
+  };
 
       useEffect(() => {
         
@@ -16,7 +34,6 @@ export default function Home() {
     
         axios.get(apiUrl)
           .then(response => {
-            setNews(response.data.items);
             setNoticias(response.data.items.map((item) => {
               const palavraInicio = '"image_intro":"';
               const palavraFim = '.';
@@ -30,86 +47,131 @@ export default function Home() {
         
               const imageUri = textUri.replace(/\s/g, '')
              
+              const indexHora = item.data_publicacao.indexOf(" "),
+              dataPublicacao = item.data_publicacao.slice(0, indexHora)
               return {
                 ...item,
                 imagens: `https://agenciadenoticias.ibge.gov.br/${imageUri}`,
+                data_publicacao_formatada:  dataPublicacao,
+                favorito: false,
               };
             }));
-
-         
-            // for (let i = 0; i < 10; i++) {
-            //   const element = response.data.items[i];
-              
-            //   const palavraInicio = '"image_intro":';
-            //   const palavraFim = '.';
-            //   const indexInicio = element.imagens.indexOf(palavraInicio);
-            //   const indexFim = element.imagens.indexOf(palavraFim) + 4;
-            //   console.log(indexInicio);
-            //   console.log(indexFim);
-            //   const imageUri = element.imagens.substring(indexInicio + palavraInicio.length, indexFim + palavraFim.length);
-            //   console.log(element.imagens)
-            //   console.log(imageUri)
-              
-            // }
           })
           .catch(error => {
             console.error('Erro ao buscar notícias:', error);
           });
       }, []);
 
-      console.log(noticiasModificadas)
       
-     
-  
     
-      // const[notices, setNoticia] = useState([
-      //   {
-      //     id: '1',
-      //     titulo: 'Greve geral na Argentina reúne 130 mil pessoas em Buenos Aires, diz polícia',
-      //     descricao: '',
-      //     autor: 'Autor',
-      //     foto: 'http://www.andes.org.br/diretorios/images/bruna/AB/WhatsApp%20Image%202023-11-13%20at%2015_55_59.jpeg',
-      //     dataPublicacao: {
-      //       dia:'01',
-      //       mes:'12',
-      //       ano: '2020'
-      //     }
-      //   },
-      //   {
-      //    id: '2',
-      //     titulo: 'Projeto que descongela tempo de serviço na pandemia é aprovado na Comissão de Finanças e Tributação da Câmara',
-      //     descricao: '',
-      //     autor: 'Vinícius Cassela',
-      //     foto: 'http://www.andes.org.br/diretorios/images/bruna/AB/WhatsApp%20Image%202023-11-13%20at%2015_55_59.jpeg',
-      //     dataPublicacao: {
-      //       dia:'13',
-      //       mes: '11',
-      //       ano:'2023'
-      //     }
-      //   }
-      // ])
+    const [imagemLike, setImagemLike] = useState('');
 
+
+   
+
+    const gerarImagem = (flag) => {
+      if (flag) {
+       setImagemLike(require('../img/likeada.png'));
+      } else {
+       setImagemLike(require('../img/like.png'));
+      }
+      return imagemLike
+    };
+
+    const favoritar = (noticia) => {
+      noticia.favorito = !noticia.favorito
+      gerarImagem(noticia.favorito)
+    }
+  
  return (
 
-  <View>
-      <Text>Últimas Notícias</Text>
+  <View style={styles.container}>
       <FlatList
-        data={noticiasModificadas}
-        keyExtractor={(item, index) => index.toString()}
+        data={news}
+        keyExtractor={ (item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.container}>
+          <View style={styles.cardNotice}>
             <View>
             <Image source={{ uri: item.imagens }} style={styles.fotoCapa} />
             </View>
             <Text style={styles.titulo}>{item.titulo}</Text>
-            <Button
+        <View style={styles.ViewInfo}>
+            <Text style={styles.info}>
+           {(item.editorias).toUpperCase()} · {item.data_publicacao_formatada}
+        </Text>
+        <View style={styles.interactionArea}>
+        <TouchableOpacity onPress={() => favoritar(item)}>
+        <Image
+            source={item.favorito ? require('../img/likeada.png') : require('../img/like.png')}
+            style={styles.imagemLike}
+        />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <Image
+            source={require('../img/share.png')}
+            style={styles.imagemLike}
+        />
+        </TouchableOpacity>
+        </View>
+        </View>
+            {/* <Button
               title="Ver Detalhes"
               // onPress={() => navigation.navigate('Details', { newsItem: item })}
-            />
+            /> */}
           </View>
+
+          
         )}
       />
-    </View>
+      <View style={styles.modalContainer}>
+             <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+          <View style={styles.modalContainer}>
+          <View style={styles.modalContent}> 
+          <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeModal}>
+            <Text style={styles.closeButton}>X</Text>
+          </TouchableOpacity>
+          <Text style={styles.titulo}>
+            Compartilhar:
+          </Text> 
+
+            <View style={styles.optionsShare}>
+              <View style={styles.clickOption}>
+                <Image
+                source={require('../img/facebook.png')}
+                style={styles.shareImage}
+                />
+                <Text style={styles.info}>Facebook</Text>
+              </View>
+
+              <View style={styles.clickOption}>
+                <Image
+                source={require('../img/whatsapp.png')}
+                style={styles.shareImage}
+                />
+                <Text style={styles.info}>WhatsApp</Text>
+              </View>
+
+              <View style={styles.clickOption}>
+                <Image
+                source={require('../img/twitter.png')}
+                style={styles.shareImage}
+                />
+                <Text style={styles.info}>Twitter</Text>
+              </View>
+
+
+            </View>
+            </View>
+            </View>
+            </Modal>
+        </View>
+   
+      </View>
 
   // <View style={styles.container}>
   //       <Text style={styles.subtitle}>{dateNow}</Text>
@@ -133,6 +195,10 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+  },
+  cardNotice: {
+    flex: 1,
     borderWidth: 1,
     width: '90%',
     height: 40,
@@ -149,7 +215,8 @@ const styles = StyleSheet.create({
     elevation: 2,
 },
 info: {
-    color: '#fff'
+    color: '#fff',
+    textAlign: 'justify'
 }, 
 viewImage:{
     justifyContent: 'center',
@@ -162,11 +229,12 @@ fotoCapa:{
     height: 250,
     borderRadius: 20,
 },
-title: {
+titulo: {
     fontSize: 20, 
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#fff'
+    color: '#fff',
+    marginTop: 10
 },
 detalhes: {
 },
@@ -174,5 +242,82 @@ geral: {
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center'
+},
+
+interactionArea:{
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent:'space-around',
+  alignItems: 'flex-end',
+  marginLeft: 110,
+
+
+},
+imagemLike:{
+  height: 30,
+  width: 30,
+  marginLeft: 9,
+},
+ViewInfo: {
+  alignItems: 'center',
+  flexDirection: 'row',
+  alignContent: 'space-around',
+  marginTop: 19
+},
+
+shareButton: {
+  fontSize: 18,
+  color: 'blue',
+},
+modalContainer: {
+  marginTop: 12,
+  flex: 1,
+   justifyContent: 'flex-end',
+  alignItems: 'center',
+},
+
+modalContent: {
+ 
+  backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  borderRadius: 20,
+  borderBottomEndRadius: 0,
+  borderBottomStartRadius: 0,
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+
+},
+
+closeModal:{
+  width: 30,
+  marginRight: 330
+},
+closeButton: {
+  marginTop: 20,
+  fontSize: 18,
+
+  color: 'white',
+  marginLeft: 10
+},
+
+optionsShare:{
+  flexDirection: 'row',
+  padding: 12,
+  alignContent: 'center',
+  justifyContent: 'center',
+  marginLeft: 10,
+},
+
+clickOption: {
+  alignItems: 'center',
+  alignContent: 'center',
+  padding: 12,
+  textAlign: 'center'
 }
   });
