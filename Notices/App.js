@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Detalhes from './src/DetalhesNoticia'
 import Home from './src/Home';
 
-// import List from './src/List';
 
 export default function app() {
 const Stack = createNativeStackNavigator();
@@ -31,6 +30,15 @@ const Stack = createNativeStackNavigator();
 <Stack.Screen
       name='Detalhes'
       component={Detalhes}
+      animationTypeForReplace='push'
+      options={{
+        title: 'Mais informações',
+        headerStyle:{
+          backgroundColor:'#121212',
+          textAlign: 'center'
+        },
+        headerTintColor: '#fff'
+      }}
       />
 
     </Stack.Navigator>

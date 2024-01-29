@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Modal, Image, FlatList, Button, TouchableOpacity, StatusBar} from 'react-native';
-import ModalSelector from 'react-native-modal';
+import { useNavigation } from '@react-navigation/native'
 import axios from 'axios';
 
 
 export default function Home() {
-
+  const navigation = useNavigation();
 
   const [news, setNoticias] = useState(null)
   const [modalVisible, setModalVisible] = useState(false);
@@ -114,10 +114,12 @@ export default function Home() {
         </TouchableOpacity>
         </View>
         </View>
-            {/* <Button
-              title="Ver Detalhes"
-              // onPress={() => navigation.navigate('Details', { newsItem: item })}
-            /> */}
+        <View style={styles.areaButton}>
+         <TouchableOpacity style={styles.buttonVer}onPress={() => navigation.navigate('Detalhes', { newsItem: item })}>
+              <Text style={styles.saibaMais}>Saiba Mais</Text>
+            </TouchableOpacity>
+        </View>
+            
           </View>
 
           
@@ -140,29 +142,29 @@ export default function Home() {
           </Text> 
 
             <View style={styles.optionsShare}>
-              <View style={styles.clickOption}>
+              <TouchableOpacity style={styles.clickOption} onPress={() => shareSelecionado('facebook')}>
                 <Image
                 source={require('../img/facebook.png')}
                 style={styles.shareImage}
                 />
                 <Text style={styles.info}>Facebook</Text>
-              </View>
+              </TouchableOpacity>
 
-              <View style={styles.clickOption}>
+              <TouchableOpacity style={styles.clickOption}onPress={() => shareSelecionado('whatsapp')}>
                 <Image
                 source={require('../img/whatsapp.png')}
                 style={styles.shareImage}
                 />
                 <Text style={styles.info}>WhatsApp</Text>
-              </View>
+              </TouchableOpacity>
 
-              <View style={styles.clickOption}>
+              <TouchableOpacity style={styles.clickOption} onPress={() => shareSelecionado('twitter')}>
                 <Image
                 source={require('../img/twitter.png')}
                 style={styles.shareImage}
                 />
                 <Text style={styles.info}>Twitter</Text>
-              </View>
+              </TouchableOpacity>
 
 
             </View>
@@ -195,7 +197,9 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    alignContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a88b0',
   },
   cardNotice: {
     flex: 1,
@@ -204,7 +208,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     padding: 10,
-    backgroundColor: '#808080',
+    backgroundColor: '#09457d',
     alignContent: 'center',
     justifyContent: 'center',
     margin: 12,
@@ -228,6 +232,8 @@ fotoCapa:{
     width: '100%',
     height: 250,
     borderRadius: 20,
+    borderColor: 'black',
+    borderWidth: 2,
 },
 titulo: {
     fontSize: 20, 
@@ -236,7 +242,26 @@ titulo: {
     color: '#fff',
     marginTop: 10
 },
-detalhes: {
+areaButton:{
+  alignContent: 'center',
+  alignItems: 'center',
+  marginTop: 10
+},
+buttonVer: {
+  alignContent: 'center',
+  alignItems: 'center',
+    width: '60%',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: '#082454',
+
+},
+saibaMais: {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
+  fontSize: 20
 },
 geral: {
     alignItems: 'center',
